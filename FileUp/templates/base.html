@@ -5,6 +5,22 @@
     <title>Django File Upload</title>
   </head>
   <body>
-    <h1>at base.html</h1>
+    <form class="" action="{% url 'save_data' %}" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="model" value="{{ model }}">
+      {% for field in fields %}
+        <div class="">
+          <input type="text" name="{{ field }}" value="{{ field }}" disabled>
+
+          <select class="" name="{{ field }}_sel">
+            {% for col in columns %}
+              <option value="{{ col }}">{{ col }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      {% endfor %}
+      <button type="submit" name="button">Submit</button>
+    </form>
+
   </body>
 </html>

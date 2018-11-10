@@ -27,7 +27,7 @@ def upload_file(instance, filename):
 
 class FileStore(models.Model):
     """(FileStore description)"""
-    file_path = models.FileField(upload_to=upload_file)
+    file_path = models.FileField(upload_to='Images/')
     uploaded_at = models.DateTimeField(blank=True, auto_now=False, auto_now_add=True)
     is_active = models.BooleanField(default=True)
 
