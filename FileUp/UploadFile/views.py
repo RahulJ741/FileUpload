@@ -44,7 +44,7 @@ def handle_upload(request,file_path,model_name):
         column_name = list(df.columns.values)
         return render(request, 'base.html',{'fields': model_fields,'columns': column_name, 'model':model_name})
 
-
+# TODO: https://docs.djangoproject.com/en/2.1/ref/models/querysets/#bulk-create
 def save_data(request):
     models_dict = {i.__name__: i for i in django.apps.apps.get_models()}
     if request.method == 'POST':
@@ -61,9 +61,11 @@ def save_data(request):
         for index, row in df.iterrows():
             try:
                 print(row['Email'], "==========")
-                upload_data = model_class
-                for model_field, dataframe_field in list_data:
+                upload_data = model_class()
+                for model_field, dataframe_field in list_data.items():
+                    print(row[dataframe_field],"8-8-8-8-8-8-8-8-8",)
                     upload_data.model_field = row[dataframe_field]
+                    print(upload_data.model_field, ";-;-;-;-;--;-;-;-;-;")
                 upload_data.save()
 
             except Exception as e:
