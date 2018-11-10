@@ -1,0 +1,13 @@
+<form class="form" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <input type="file" name="excel_file">
+  <br><hr>
+  <select class="" name="model_selection">
+    {% for model in models_list %}
+      <option value="{{ model }}">{{ model }}</option>
+    {% endfor %}
+  </select>
+
+  <button type="submit" name="button">Submit</button>
+
+</form>
