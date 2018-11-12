@@ -5,16 +5,16 @@ from django.db import models
 class DataModel(models.Model):
     """(DataModel description): this is a test model to test file upload and the content """
     name = models.CharField(blank=True, max_length=100, null=True)
-    email_id = models.EmailField(blank=True, null=True)
+    email_id = models.CharField(blank=True, null=True, max_length=100)
     contact_no = models.CharField(blank=True, max_length=100, null=True)
     data = models.TextField(blank=True, null=True)
-    updated_time = models.DateTimeField(blank=True,null=True, auto_now = False, auto_now_add=False)
+    updated_time = models.CharField(blank=True,null=True, max_length=100)
 
     def __unicode__(self):
         return u"DataModel"
 
     def __str__(self):
-        return '{}'.format()
+        return '{}'.format(self.name)
 
 import os
 # import datetime

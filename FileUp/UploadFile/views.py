@@ -55,17 +55,18 @@ def save_data(request):
         file_obj = FileStore.objects.filter(is_active=True).order_by('-uploaded_at')[0]
         df = pd.read_excel(file_obj.file_path.path)
         for field in model_fields:
-            print(request.POST[field+'_sel'], "opopopopopoppopopopopopop")
+            # print(request.POST[field+'_sel'], "opopopopopoppopopopopopop")
             list_data[field] = request.POST[field+'_sel']
 
         for index, row in df.iterrows():
             try:
-                print(row['Email'], "==========")
-                upload_data = model_class()
+                # print(row['Email'], "==========")
+                upload_data = model_class
+                print(upload_data, "object is here")
                 for model_field, dataframe_field in list_data.items():
-                    print(row[dataframe_field],"8-8-8-8-8-8-8-8-8",)
+                    print(model_field,"----------",row[dataframe_field],"Data of a field is here")
                     upload_data.model_field = row[dataframe_field]
-                    print(upload_data.model_field, ";-;-;-;-;--;-;-;-;-;")
+                    # print(upload_data.model_field, ";-;-;-;-;--;-;-;-;-;")
                 upload_data.save()
 
             except Exception as e:
