@@ -61,7 +61,7 @@ def save_data(request):
         for index, row in df.iterrows():
             try:
                 # print(row['Email'], "==========")
-                upload_data = model_class
+                upload_data = model_class.objects.create()
                 print(upload_data, "object is here")
                 for model_field, dataframe_field in list_data.items():
                     print(model_field,"----------",row[dataframe_field],"Data of a field is here")
