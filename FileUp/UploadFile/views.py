@@ -39,7 +39,8 @@ def handle_upload(request,file_path,model_name):
     if request.method=='POST':
         print('POST method')
         models_class_name = models_dict[model_name]
-        model_fields = [f.name for f in models_class_name._meta.get_fields()]
+        model_fields = [f.name for f in models_class_name._meta.get_fields() if f.name != 'id']
+        # model_fields.remove('id')
         df = pd.read_excel(file_path)
         column_name = list(df.columns.values)
         return render(request, 'base.html',{'fields': model_fields,'columns': column_name, 'model':model_name})
@@ -50,7 +51,7 @@ def save_data(request):
     if request.method == 'POST':
         print(request.POST, "123456789123456789123456789123456789")
         model_class = models_dict[request.POST['model']]
-        model_fields = [f.name for f in model_class._meta.get_fields()]
+        model_fields = [f.name for f in model_class._meta.get_fields() if f.name != 'id']
         list_data = {}
         file_obj = FileStore.objects.filter(is_active=True).order_by('-uploaded_at')[0]
         df = pd.read_excel(file_obj.file_path.path)
@@ -65,9 +66,15 @@ def save_data(request):
                 print(upload_data, "object is here")
                 for model_field, dataframe_field in list_data.items():
                     print(model_field,"----------",row[dataframe_field],"Data of a field is here")
-                    upload_data.model_field = row[dataframe_field]
-                    # print(upload_data.model_field, ";-;-;-;-;--;-;-;-;-;")
+                    print(getattr(upload_data, model_field))
+                    setattr(upload_data, model_field, row[dataframe_field])
+                    # upload_data.model_field = row[dataframe_field]
+
+                print(upload_data.id, ";-;-;-;-;--;-;-;-;-;", upload_data)
                 upload_data.save()
+
+                file_obj.is_active = False
+                file_obj.save()
 
             except Exception as e:
                 print(e, "eoor at inner function")
